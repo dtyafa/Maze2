@@ -10,14 +10,15 @@ pygame.display.set_caption("maze")
 def run():
     game = True
     
-    hero = Hero(100, 100, 75, 75, None, 5)
+    hero = Hero(100, 100, 39, 89, "Player.png", 5, window)
     clock = pygame.time.Clock()
 
     while game:
 
         window.fill((0, 222, 255))
-        pygame.draw.rect(window, (255, 0, 0), hero)
+
         hero.move()
+        hero.draw()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
