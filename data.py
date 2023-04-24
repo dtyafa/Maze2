@@ -1,4 +1,4 @@
 setting_win = {
-    "Width": 600,
-    "Height": 500
+    "Width": 1000,
+    "Height": 900
 }

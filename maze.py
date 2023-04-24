@@ -10,7 +10,6 @@ class Hero(pygame.Rect):
         self.WIN = win
         self.MOVE = {"UP": False, "DOWN": False, "LEFT": False, "RIGHT": False}
         
-
     def move(self):
         if self.MOVE["UP"]:
             self.y -= self.SPEED
@@ -22,4 +21,5 @@ class Hero(pygame.Rect):
             self.x += self.SPEED
     def draw(self):
         self.WIN.blit(pygame.image.load(self.IMAGE), (self.x, self.y))
+        
 

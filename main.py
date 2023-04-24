@@ -9,9 +9,9 @@ pygame.display.set_caption("maze")
 
 def run():
     game = True
-    
-    hero = Hero(100, 100, 39, 89, "Player.png", 5, window)
     clock = pygame.time.Clock()
+    
+    hero = Hero(100, 100, 78, 178, "Player.png", 5, window)
 
     while game:
 
