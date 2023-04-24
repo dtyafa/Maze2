@@ -4,11 +4,13 @@ from data import *
 pygame.init()
 
 class Hero(pygame.Rect):
-    def __init__(self, x, y, start_x, start_y, width, height, image, speed, win):
+    def __init__(self, x, y, width, height, image, speed, win):
         super().__init__(x, y, width, height)
         self.IMAGE = image
         self.SPEED = speed
-        self.start_x = self.x
+        self.i = 0
+        self.int = 0
+        self.start_x = x
         self.start_y = self.y
         self.WIN = win
         self.MOVE = {"UP": False, "DOWN": False, "LEFT": False, "RIGHT": False}
@@ -39,7 +41,8 @@ class Hero(pygame.Rect):
         self.y = self.start_y
     
 class Enemy(pygame.Rect):
-    def __init__(self, x, y, start_x, start_y, width, height, image, speed, win, direction):
+    def __init__(self, x, y, width, height, image, speed, win, direction):
+        super().__init__(x, y, width, height)
         self.IMAGE = image
         self.SPEED = speed
         self.DIRECTION = direction
@@ -69,5 +72,9 @@ class Enemy(pygame.Rect):
 
     def draw(self):
         self.WIN.blit(pygame.image.load(self.IMAGE), (self.x, self.y))
+
+    def lose(self):
+        self.x = self.start_x
+        self.y = self.start_y
             
             
