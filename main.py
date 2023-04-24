@@ -3,7 +3,6 @@ from data import *
 from maze import *
 
 pygame.init()
-
 window = pygame.display.set_mode((setting_win["Width"], setting_win["Height"]))
 pygame.display.set_caption("maze")
 
@@ -11,7 +10,10 @@ def run():
     game = True
     clock = pygame.time.Clock()
     
-    hero = Hero(100, 100, 78, 178, "Player.png", 5, window)
+    hero = Hero(10, 10, 100, 100, 78, 178, "sprites\\Player.png", 5, window)
+    enemy = Enemy(5, 5, 150, 150, 94, 102, "sprites\\robot.png", 2, window, "x")
+    enemy2 = Enemy(100, 100, 10, 10, 94, 102, "sprites\\robot.png", 2, window, "y")
+    
 
     while game:
 
@@ -19,6 +21,10 @@ def run():
 
         hero.move()
         hero.draw()
+        enemy.draw()
+        enemy.move()
+        enemy2.draw()
+        #enemy2.move()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
