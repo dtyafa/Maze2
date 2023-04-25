@@ -54,7 +54,7 @@ def run():
         #    enemy2.lose()
         #    enemy.lose()
             
-        print("x = " + str(hero.x) + " " + "y = " + str(hero.y))
+
         clock.tick(60)
         pygame.display.flip()
 
