@@ -12,8 +12,8 @@ def run():
     clock = pygame.time.Clock()
     
     hero = Hero(500, 500, 78, 178, "sprites\\Player.png", 5, window)
-    enemy = Enemy(0, 0, 94, 102, "sprites\\robot.png", 5, window, "x")
-    enemy2 = Enemy(0, 0, 94, 102, "sprites\\robot.png", 5, window, "y")
+    enemy = Enemy(0, 0, 94, 102, "sprites\\robot.png", 3, window, "x")
+    enemy2 = Enemy(0, 0, 94, 102, "sprites\\robot.png", 3, window, "y")
     
 
     while game:
@@ -49,12 +49,12 @@ def run():
                 if event.key == pygame.K_d:
                     hero.MOVE["RIGHT"] = False
 
-        if hero.colliderect(enemy) or hero.colliderect(enemy2):
-            hero.lose()
-            enemy2.lose()
-            enemy.lose()
+        #if hero.colliderect(enemy) or hero.colliderect(enemy2):
+        #    hero.lose()
+        #    enemy2.lose()
+        #    enemy.lose()
             
-
+        print("x = " + str(hero.x) + " " + "y = " + str(hero.y))
         clock.tick(60)
         pygame.display.flip()
 
