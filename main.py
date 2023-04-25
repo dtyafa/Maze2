@@ -49,10 +49,10 @@ def run():
                 if event.key == pygame.K_d:
                     hero.MOVE["RIGHT"] = False
 
-        #if hero.colliderect(enemy) or hero.colliderect(enemy2):
-        #    hero.lose()
-        #    enemy2.lose()
-        #    enemy.lose()
+        if hero.colliderect(enemy) or hero.colliderect(enemy2):
+            hero.lose()
+            enemy2.lose()
+            enemy.lose()
             
 
         clock.tick(60)
