@@ -76,5 +76,3 @@ class Enemy(pygame.Rect):
     def lose(self):
         self.x = self.start_x
         self.y = self.start_y
-            
-            

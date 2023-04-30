@@ -26,6 +26,7 @@ def run():
         enemy.move()
         enemy2.draw()
         enemy2.move()
+        
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
