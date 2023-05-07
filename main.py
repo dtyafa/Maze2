@@ -11,21 +11,24 @@ def run():
     game = True
     clock = pygame.time.Clock()
     
-    hero = Hero(500, 500, 78, 178, "sprites\\Player.png", 5, window)
-    enemy = Enemy(0, 0, 94, 102, "sprites\\robot.png", 3, window, "x")
-    enemy2 = Enemy(0, 0, 94, 102, "sprites\\robot.png", 3, window, "y")
+    hero = Hero(500, 500, 78, 178, hero_list, 5)
+    enemy = Enemy(0, 0, 94, 102, robot_list, 3, "x")
+    enemy2 = Enemy(0, 0, 94, 102, robot_list, 3, "y")
     
 
     while game:
 
+        pygame.draw.rect(window, (255, 255, 0), (100, 100, 100, 100))
         window.blit(bg, (0, 0))
 
         hero.move()
-        hero.draw()
-        enemy.draw()
+        window.blit(hero.IMAGE, (hero.x, hero.y))
         enemy.move()
-        enemy2.draw()
+        window.blit(enemy.IMAGE, (enemy.x, enemy.y))
         enemy2.move()
+        window.blit(enemy2.IMAGE, (enemy2.x, enemy2.y))
+
+
         
 
         for event in pygame.event.get():
@@ -56,7 +59,7 @@ def run():
             enemy.lose()
             
 
-        clock.tick(60)
+        clock.tick(80)
         pygame.display.flip()
 
 run()
