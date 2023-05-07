@@ -2,7 +2,8 @@ import pygame
 from data import *
 
 pygame.init()
-
+global key
+key = False
 
 class Sprite(pygame.Rect):
     def __init__(self, x, y, width, height, image_list, speed):
@@ -37,15 +38,35 @@ class Hero(Sprite):
         if self.MOVE["UP"]:
             self.y -= self.SPEED
             self.move_image(len(self.IMAGE_LIST) * 10 + 9)
+            if self.collidelist(wall_list) != -1:
+                self.y += self.SPEED
+            if key != True:
+                if self.collidelist(door_list) != -1:
+                    self.y += self.SPEED
         elif self.MOVE["DOWN"]:
             self.y += self.SPEED
             self.move_image(len(self.IMAGE_LIST) * 10 + 9)
+            if self.collidelist(wall_list) != -1:
+                self.y -= self.SPEED
+            if key != True:
+                if self.collidelist(door_list) != -1:
+                    self.y -= self.SPEED
         elif self.MOVE["LEFT"]:
             self.x -= self.SPEED
             self.move_image(len(self.IMAGE_LIST) * 10 + 9)
+            if self.collidelist(wall_list) != -1:
+                self.x += self.SPEED
+            if key != True:
+                if self.collidelist(door_list) != -1:
+                    self.x += self.SPEED
         elif self.MOVE["RIGHT"]:
             self.x += self.SPEED
             self.move_image(len(self.IMAGE_LIST) * 10 + 9)
+            if self.collidelist(wall_list) != -1:
+                self.x -= self.SPEED
+            if key != True:
+                if self.collidelist(door_list) != -1:
+                    self.x -= self.SPEED
         if self.x >= (setting_win["Width"] - 74): 
             self.x = self.x - self.SPEED
         if self.x <= -1: 
@@ -62,33 +83,21 @@ class Hero(Sprite):
         self.y = self.start_y
     
 class Enemy(Sprite):
-    def __init__(self, x, y, width, height, image_list, speed, direction):
+    def __init__(self, x, y, width, height, image_list, speed):
         super().__init__(x, y, width, height, image_list, speed)
-        self.DIRECTION = direction
         self.start_x = self.x
         self.start_y = self.y
         self.GOBACK = False
-    def move(self):
-        if self.DIRECTION == "x":
-            if self.GOBACK == False:
-                self.x = self.x + self.SPEED
-                if self.x >= (setting_win["Width"] - 98):
-                    self.GOBACK = True
-            elif self.GOBACK == True:
-                self.x = self.x - self.SPEED
-                if self.x <= -1:
-                    self.GOBACK = False
-        if self.DIRECTION == "y":
-            if self.GOBACK == False:
-                self.y = self.y + self.SPEED
-                if self.y >= (setting_win["Height"] - 100):
-                    self.GOBACK = True
-            elif self.GOBACK == True:
-                self.y = self.y - self.SPEED
-                if self.y <= -2:
-                    self.GOBACK = False
+    def move(self, x1, y1, x2, y2, key):
+        if key == "x":
+            if self.x  < x1 or self > x2:
+                self.SPEED *= -1
+            self.x += self.SPEED
+        if key == "y":
+            if self.y  < y1 or self.y > y2:
+                self.SPEED *= -1
+            self.y += self.SPEED
         self.move_image(len(self.IMAGE_LIST) * 10 + 9)
-
     def lose(self):
         self.x = self.start_x
         self.y = self.start_y
@@ -98,30 +107,83 @@ class Wall(pygame.Rect):
     def __init__(self, x, y, width, height, color):
         super().__init__(x, y, width, height)
         self.COLOR = color
-                                                       
+
+door_list = []                                  
 def create_wall(key):
     x, y = 0, 0
-    x1,y1 = 0,0
-    step = setting_win["Width"] // 20
+    x1, y1 = 0, 0
+    step =setting_win["Width"] // 20
 
-    index = 0
+    index_h = 0
+    index_v = 0
     for string in maps[key]:
         for element in string:
+            #vertical
             if element == "1":
-                for string in maps[key]:
-                    if string[index] == "2":
-                        wall_list.append(Wall(x,y, 20, y + y1, (255,100,45)))
+                index_temp = index_v
+                while True:
+                    if maps[key][index_temp][index_h] == "2":
+                        wall_list.append(Wall(x, y, 20, y1, (0, 204, 204)))
                         break
                     y1 += step
+                    index_temp += 1
+                y1 = 0
+            if element == "5":
+                index_temp = index_v
+                while True:
+                    if maps[key][index_temp][index_h] == "4":
+                        wall_list.append(Wall(x, y, 20, y1, (0, 204, 204)))
+                        break
+                    y1 += step
+                    index_temp += 1
+                y1 = 0
+            if element == "8":
+                index_temp = index_v
+                while True:
+                    if maps[key][index_temp][index_h] == "2":
+                        wall_list.append(Wall(x, y - 20, 20, y1 + 20, (0, 204, 204)))
+                        break
+                    y1 += step
+                    index_temp += 1
+                y1 = 0
+            #horizontal
             if element == "3":
-                for element in string:
-                    if element == "4":
-                        wall_list.append(Wall(x - step + 20, y - 20, x +x1, 20, (255,100,45)))
+                index_temp = index_h
+                while True:
+                    if string[index_temp] == "4":
+                        wall_list.append(Wall(x - step + 20, y - 20, x1 + 30, 20, (0, 204, 204)))
                         break
                     x1 += step
-            index += 1
-            y += step
+                    index_temp += 1
+                x1 = 0
+            if element == "6":
+                index_temp = index_h
+                while True:
+                    if string[index_temp] == "7":
+                        wall_list.append(Wall(x - step, y - 20, x1 + step * 2, 20, (0, 204, 204)))
+                        break
+                    x1 += step
+                    index_temp += 1
+                x1 = 0
+
+            if element == "s":
+                index_temp = index_h
+                while True:
+                    if string[index_temp] == "e":
+                        door_list.append(Wall(x - step, y - 20, x1 + step * 2, 20, (153, 76, 0)))
+                        break
+                    x1 += step
+                    index_temp += 1
+                x1 = 0
+            index_h += 1
+            x += step
         y += step
         x = 0
+        index_v += 1
+        index_h = 0
+
+def key_up():
+    key = True
+
 create_wall("MAP1")
     
